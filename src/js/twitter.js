@@ -349,6 +349,17 @@ twitter.prototype.createaFormattedTweet = function(tobj) {
 		retweeted_status=true;
 	}
 
+	var retweeted = "",
+	    favorited = "";
+
+	if(tobj.retweeted) {
+		retweeted = "retweeted" // css clas.
+	}
+
+	if(tobj.favorited) {
+		favorited = "favorited" // css class
+	}
+
 	var t = "";
 	t += "<div class='media tweet' data-id='"+tobj.id_str+"' id='"+tobj.id_str+"-tweet'>";
 	t +="  <a class='pull-left' href='#'>";
@@ -359,9 +370,9 @@ twitter.prototype.createaFormattedTweet = function(tobj) {
 	t +=     this.formatBody(tobj.text);
 	t +="  </div>";
 	t +="  <span class='media-actions'>";
-	t +="    <i class='glyphicon glyphicon-star' onclick=\"tlib.favorite('"+tobj.id_str+"', $(this));\"></i>";
+	t +="    <i class='glyphicon glyphicon-star "+favorited+"' onclick=\"tlib.favorite('"+tobj.id_str+"', $(this));\"></i>";
 	t +="    &nbsp;";
-	t +="    <i class='glyphicon glyphicon-retweet' onclick=\"tlib.retweet('"+tobj.id_str+"', $(this));\"></i>";
+	t +="    <i class='glyphicon glyphicon-retweet "+retweeted+"' onclick=\"tlib.retweet('"+tobj.id_str+"', $(this));\"></i>";
 	t +="    &nbsp;";
 	t +="    <i class='glyphicon glyphicon-share-alt' onclick=\"composeTweet('"+tobj.id_str+"', '"+tobj.user.screen_name+"')\"></i>";
 	t +="  </span>";
