@@ -22,7 +22,7 @@
     </div>
   </header>
 
-  <textarea id="tweet-area" class="form-control textarea"></textarea>
+  <textarea placeholder="Tweet tweet..." id="tweet-area" class="form-control textarea"></textarea>
 
   <script src="js/buttons.js"></script>
   <script type="text/javascript">
@@ -48,12 +48,32 @@
 
   $("#tweet-area").enterKey(postTweet);
 
+  if(global.reply !== undefined) {
+    console.log(global.reply)
+    $(".textarea").html("@"+global.tweetname+" ");
+  }
+
   function postTweet() {
     $('#tweet-area').attr('disabled', '');
-    global.tlib.postStatus($('#tweet-area').val(), function() {
-      $('#tweet-area').removeAttr('disabled');
-      $('#tweet-area').val("");
-    })
+
+
+    if(global.reply) {
+      global.tlib.reply(global.tweetid, $('#tweet-area').val(), function() {
+        $('#tweet-area').removeAttr('disabled');
+        $('#tweet-area').val("");
+      });
+    } else {
+      global.tlib.postStatus($('#tweet-area').val(), function() {
+        $('#tweet-area').removeAttr('disabled');
+        $('#tweet-area').val("");
+      });
+    }
+
+    global.reply = undefined;
+    global.tweetid = undefined;
+    global.tweetname = undefined;
   }
+
+  $(".textarea").focus()
   </script>
 </body>

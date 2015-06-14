@@ -32,7 +32,11 @@ function home() {
         DEA.notifications.create(options, callback);
 
         function processNotifications() {
-          DEA.notifications.clear();
+          try {
+            window.DEA.notifications.clear();
+          } catch(err) {
+            // we ignore this.
+          }
         }
 
         setTimeout(processNotifications, 5000);
@@ -94,9 +98,17 @@ function login() {
   $("#login").show();
 }
 
-function composeTweet() {
+function composeTweet(id, name) {
   // reset
   global.tlib = tlib
+
+  if(id !== undefined && id !== "") {
+    console.log("main: doing a reply.")
+    console.log(id)
+    global.reply = true;
+    global.tweetid = id;
+    global.tweetname = name;
+  }
 
   // load the window
   require('nw.gui').Window.open("./new-tweet.html", {
@@ -133,7 +145,9 @@ $(".btn-min").click(function() {
   require('nw.gui').Window.get().minimize()
 })
 
-$(".btn-tweet").click(composeTweet);
+$(".btn-tweet").click(function() {
+  composeTweet()
+});
 
 $(".btn-max").click(function() {
   if (window.winstate === undefined || window.winstate === 0 ) {

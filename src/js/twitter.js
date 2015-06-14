@@ -350,7 +350,7 @@ twitter.prototype.createaFormattedTweet = function(tobj) {
 	}
 
 	var t = "";
-	t += "<div class='media tweet' data-id='"+tobj.id+"' id='"+tobj.id+"-tweet'>";
+	t += "<div class='media tweet' data-id='"+tobj.id_str+"' id='"+tobj.id_str+"-tweet'>";
 	t +="  <a class='pull-left' href='#'>";
 	t +="    <img class='media-object tweet-pimg' src='"+tobj.user.profile_image_url.replace("_normal", "")+"'>";
 	t +="  </a>";
@@ -359,11 +359,11 @@ twitter.prototype.createaFormattedTweet = function(tobj) {
 	t +=     this.formatBody(tobj.text);
 	t +="  </div>";
 	t +="  <span class='media-actions'>";
-	t +="    <i class='glyphicon glyphicon-star' onclick=\"tlib.favorite("+tobj.id+", $(this));\"></i>";
+	t +="    <i class='glyphicon glyphicon-star' onclick=\"tlib.favorite('"+tobj.id_str+"', $(this));\"></i>";
 	t +="    &nbsp;";
-	t +="    <i class='glyphicon glyphicon-retweet' onclick=\"tlib.retweet("+tobj.id+", $(this));\"></i>";
+	t +="    <i class='glyphicon glyphicon-retweet' onclick=\"tlib.retweet('"+tobj.id_str+"', $(this));\"></i>";
 	t +="    &nbsp;";
-	t +="    <i class='glyphicon glyphicon-share-alt'></i>";
+	t +="    <i class='glyphicon glyphicon-share-alt' onclick=\"composeTweet('"+tobj.id_str+"', '"+tobj.user.screen_name+"')\"></i>";
 	t +="  </span>";
 	t +="  <span class='tweet-info'>via "+tobj.source+" - <span class='timestamp' title='"+tobj.created_at+"'>"+this.moment(tobj.created_at).fromNow()+"</span></span>";
 	t +="</div>";
@@ -694,6 +694,32 @@ twitter.prototype.postStatusWithMedia = function(status, file, cb) {
 		cb(err, res, body)
 	}
 }
+
+/**
+ * Reply to a status on Twitter.
+ *
+ * @return index.throwError(err);
+ **/
+twitter.prototype.reply = function(id, status, cb) {
+	if(id === undefined || status === undefined) {
+		return false
+	}
+
+	console.log("[twitter.js] /postStatus/ => post: Posting '"+status+"'");
+	this.T.post('statuses/update', { status: status, in_reply_to_status_id: id }, function(err, data, response) {
+	  if(err) {
+	  	index.throwError("Couldn't post status");
+	  }
+
+	  global.measure_tweet = true;
+	  global.tweet_posted = new Date().getTime();
+
+	  if(cb!==undefined) {
+	  	console.log("[twitter.js] /postStatus/ => exit: Calling cb");
+	  	cb();
+	  }
+	});
+};
 
 /** Is now changeable **/
 tlib = new twitter();
