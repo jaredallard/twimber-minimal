@@ -92,7 +92,7 @@
                     </div>
                  {{/if}}
                  <div class="title">{{title}}</div>
-                 <div class="description">{{message}}</div>
+                 <div class="description">{{{message}}}</div>
                  {{#if buttonPrimary}}
                     <div class="button primary">{{buttonPrimary}}</div>
                  {{/if}}
@@ -116,7 +116,7 @@
                     </div>
                  {{/if}}
                  <div class="title">{{title}}</div>
-                 <div class="description">{{message}}</div>
+                 <div class="description">{{{message}}}</div>
                  <div class="gallery">
                      {{#if imageUrl}}
                         <img class="gallery-image" src="{{imageUrl}}"/>

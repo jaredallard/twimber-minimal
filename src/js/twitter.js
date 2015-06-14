@@ -167,7 +167,7 @@ twitter.prototype.showLag = function(lag) {
  *
  * @return none
  **/
-twitter.prototype.startStream = function(cb_div) {
+twitter.prototype.startStream = function(cb_div, options) {
 		/**
 		 * This is essentially the beginning function. (for twitter).
 		**/
@@ -225,6 +225,15 @@ twitter.prototype.startStream = function(cb_div) {
 			/** Display (old, or new) LAG+Parse lag **/
 			console.log("[twitter.js] /stream/ => time: Parse Lag is at "+lag_parse+"ms");
 			$("#lag-num").html(global.lag+"ms (+"+lag_parse+")");
+
+			if(options !== undefined) {
+				// todo: remember how to check if function
+				if(options.onMention !== undefined) {
+					if(tweet.text.match(/@2root4you/g)) {
+						options.onMention(tweet);
+					}
+				}
+			}
 
 			/** Clean up **/
 			global.measure_tweet=false;

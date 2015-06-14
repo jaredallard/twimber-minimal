@@ -15,8 +15,72 @@ function home() {
 
   /* Test Twitter Streaming */
   tlib.getTimeline("#home", function() {
-    tlib.startStream("#home");
+    tlib.startStream("#home", {
+      onMention: function(tweet) {
+        var options = {
+          type: "text",
+          title: tweet.user.screen_name+" mentioned you",
+          message: tlib.formatBody(tweet.text),
+          iconUrl: tweet.user.profile_image_url.replace("_normal", ""),
+          buttonPrimary: "Dismiss"
+        }
+
+        function callback() {
+          console.log("mention dialog callback called.")
+        }
+
+        DEA.notifications.create(options, callback);
+
+        function processNotifications() {
+          DEA.notifications.clear();
+        }
+
+        setTimeout(processNotifications, 5000);
+      },
+      onDm: function(tweet) {
+        var options = {
+          type: "text",
+          title: tweet.user.screen_name+" mentioned you",
+          message: tlib.formatBody(tweet.text),
+          iconUrl: tweet.user.profile_image_url.replace("_normal", ""),
+          buttonPrimary: "Dismiss"
+        }
+
+        function callback() {
+          console.log("mention dialog callback called.")
+        }
+
+        DEA.notifications.create(options, callback);
+
+        function processNotifications() {
+          DEA.notifications.clear();
+        }
+
+        setTimeout(processNotifications, 5000);
+      },
+    });
   });
+
+  /* register key events */
+  var gui = require('nw.gui');
+
+  var option = {
+    key : "Ctrl+T",
+    active : function() {
+      console.log("Tweet hotkey active.")
+      composeTweet();
+    },
+    failed : function(msg) {
+      // :(, fail to register the |key| or couldn't parse the |key|.
+      console.log(msg);
+    }
+  };
+
+  // Create a shortcut with |option|.
+  var shortcut = new gui.Shortcut(option);
+
+  // Register global desktop shortcut, which can work without focus.
+  gui.App.registerGlobalHotKey(shortcut);
 
   setInterval(function() {
     $("span .timestamp").each(function(index) {
@@ -28,6 +92,20 @@ function home() {
 
 function login() {
   $("#login").show();
+}
+
+function composeTweet() {
+  // reset
+  global.tlib = tlib
+
+  // load the window
+  require('nw.gui').Window.open("./new-tweet.html", {
+    frame: false,
+    toolbar: false,
+    width: 400,
+    height: 150,
+    position: "mouse"
+  })
 }
 
 function doLogin(user) {
@@ -55,18 +133,7 @@ $(".btn-min").click(function() {
   require('nw.gui').Window.get().minimize()
 })
 
-$(".btn-tweet").click(function() {
-  // reset
-  global.tlib = tlib
-
-  // load the window
-  require('nw.gui').Window.open("./new-tweet.html", {
-    frame: false,
-    toolbar: false,
-    width: 400,
-    height: 150
-  })
-})
+$(".btn-tweet").click(composeTweet);
 
 $(".btn-max").click(function() {
   if (window.winstate === undefined || window.winstate === 0 ) {

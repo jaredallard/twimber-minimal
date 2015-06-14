@@ -31,11 +31,14 @@ header {
 }
 
 header .btns {
+  position:fixed;
   width:100px;
   display:inline-block;
   height:inherit;
   line-height: inherit;
-  float:right;
+
+  top:0;
+  right:0;
 }
 
 header .btns div {
@@ -223,4 +226,15 @@ header .btns .btn-max {
 .textarea {
   outline:0;
   margin-top:20px;
+}
+.title {
+  /*broken*/
+  display:none;
+  
+  position:fixed;
+  top:0;
+  right:0;
+  left:0;
+  margin: 0 auto;
+  width:auto;
 }
