@@ -17,8 +17,10 @@
     "utf8": "^2.1.0"
   },
   "window": {
-    "min-width": "481",
-    "min-height": "550",
+    "min-width": 350,
+    "min-height": 650,
+    "width": 350,
+    "height": 650,
     "always-on-top": true,
     "frame": false,
     "toolbar": false

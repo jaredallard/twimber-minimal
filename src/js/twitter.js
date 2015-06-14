@@ -270,6 +270,11 @@ twitter.prototype.formatBody = function(text) {
 	// initial markdown
 	text = marked(text);
 
+	// emojii support
+	text = twemoji.parse(text, {
+		size: 16
+	});
+
 	//text = text.replace(/^\<\p\>/g, "<p class='tweet-body'>"); // make regex more sound, could cause a bug
 
 	text = text+"</div>";
@@ -510,6 +515,9 @@ twitter.prototype.checkCredentials = function(cb) {
  * @return none
  **/
 twitter.prototype.getAuthToken = function(pin, auth) {
+	console.log(pin)
+	console.log(auth);
+
 	var ths = this
 	this.oauth.get('https://twitter.com/oauth/access_token?oauth_verifier='+pin+'&'+auth, function(data) {
 		console.dir(data);
@@ -547,6 +555,7 @@ twitter.prototype.getAuthToken = function(pin, auth) {
 
 		ths.checkCredentials();
 	}, function(data) {
+		console.log(data)
 		index.throwError("Couldn't log you in, please try again later.");
 	});
 };
@@ -563,7 +572,10 @@ twitter.prototype.requestPin = function (user) {
 
 			function(data) {
 				console.dir(data);
-				window.open('https://twitter.com/oauth/authorize?'+data.text+"&screen_name="+user+"&force_login=true");
+				require('nw.gui').Window.open('https://twitter.com/oauth/authorize?'+data.text+"&screen_name="+user+"&force_login=true", {
+					frame: true,
+					toolbar: false
+				});
 				global.requestParams = data.text;
 			},
 
