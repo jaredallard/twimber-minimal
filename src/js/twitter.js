@@ -350,9 +350,9 @@ twitter.prototype.createaFormattedTweet = function(tobj) {
 	t +=     this.formatBody(tobj.text);
 	t +="  </div>";
 	t +="  <span class='media-actions'>";
-	t +="    <i class='glyphicon glyphicon-star' onclick=\"tlib.favorite('"+tobj.id+"', $(this));\"></i>";
+	t +="    <i class='glyphicon glyphicon-star' onclick=\"tlib.favorite("+tobj.id+", $(this));\"></i>";
 	t +="    &nbsp;";
-	t +="    <i class='glyphicon glyphicon-retweet' onclick=\"tlib.retweet('"+tobj.id+"', $(this));\"></i>";
+	t +="    <i class='glyphicon glyphicon-retweet' onclick=\"tlib.retweet("+tobj.id+", $(this));\"></i>";
 	t +="    &nbsp;";
 	t +="    <i class='glyphicon glyphicon-share-alt'></i>";
 	t +="  </span>";
@@ -619,6 +619,7 @@ twitter.prototype.favorite = function(id, obj) {
 		if(err) {
 			index.throwError(err);
 			console.log(response);
+			return false
 		} else {
 			$(obj).addClass("favorited");
 		}
@@ -634,7 +635,7 @@ twitter.prototype.favorite = function(id, obj) {
  * @return undefined
  **/
 twitter.prototype.retweet = function(id, obj) {
-	console.log("[twitter] fav: Attempting to fav tweet with id of '"+id+"'");
+	console.log("[twitter] retweet: Attempting to retweet tweet with id of '"+id+"'");
 	this.T.post('statuses/retweet/:id', { id: id }, function (err, data, response) {
 		if(err) {
 			index.throwError(err);

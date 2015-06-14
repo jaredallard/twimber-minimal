@@ -1,0 +1,226 @@
+html,
+body {
+  height:100%;
+  width:100%;
+
+
+  overflow:hidden;
+
+  margin:0;
+  padding:0;
+
+  background-color:rgba(255,255,255,.3) !important;
+}
+
+header {
+  position: absolute;
+
+  top:0;
+
+  z-index:10;
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  vertical-align: center;
+
+  /* color */
+  background-color: #DADFE1;
+
+  /* Makes our application draggable by the top bar */
+  -webkit-app-region: drag !important;
+}
+
+header .btns {
+  width:100px;
+  display:inline-block;
+  height:inherit;
+  line-height: inherit;
+  float:right;
+}
+
+header .btns div {
+  height:15px;
+  width:15px;
+
+  float:right;
+
+  margin-top:5px;
+
+  margin-right:5px;
+
+  border-radius: 50%;
+}
+
+header .btn-tweet {
+  height:100%;
+  width:auto;
+
+  background-color: #BDC3C7;
+
+  -webkit-app-region: no-drag;
+  float:left;
+  padding-left:5px;
+  padding-right:5px;
+}
+
+header .btns .btn-close {
+  -webkit-app-region: no-drag;
+  background-color: #FE6053;
+}
+
+header .btns .btn-min {
+  -webkit-app-region: no-drag;
+  background-color: #FFBE05;
+}
+
+header .btns .btn-max {
+  -webkit-app-region: no-drag;
+  background-color: #0DCE33;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #BDC3C7;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #7F8C8D;
+}
+
+/** Tweets **/
+.tweet-pimg {
+    height:60px;
+    width:60px;
+    margin:10px;
+
+    border:2px solid #95A5A6;
+
+    /** Rounded Corners **/
+    -webkit-border-radius: 90px;
+    -moz-border-radius: 90px;
+    border-radius: 90px;
+}
+.tweet {
+ background-color:#FFFFFF;
+}
+.tweet-body {
+  height:auto;
+}
+.media-actions {
+  margin-right:10px;
+  width:auto;
+  color:#474747;
+  float:right;
+}
+.loading-gif-wrapper {
+  margin-top:20px;
+  text-align:center;
+  margin-bottom:20px;
+}
+.tweet-body {
+  color: #292F33;
+  cursor: pointer;
+  font-family: Arial,Verdana,sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  text-rendering: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+
+  margin-right:20px;
+  min-height:50px;
+}
+.tweet-at-link,
+.tweet-link,
+.tweet-hashtag {
+  color:#00cccc;
+}
+.tweet-info {
+  color:#474747;
+  float:left;
+  margin-left:10px;
+  font-size:12px;
+  margin-top:2px;
+}
+.tweet-at {
+  font-size:15px;
+  color:#cccccc !important;
+  text-decoration:none;
+}
+.tweet-at:hover {
+  text-decoration:none;
+  color:#cccccc !important;
+}
+.tweet-info a:hover {
+  text-decoration:none !important;
+}
+.tweet-screen_name {
+  font-size:16px;
+  color:#999999;
+}
+
+#page-wrapper {
+  margin:0;
+  padding:0;
+
+  height: 0px;
+  width:100%;
+
+  margin-top:25px;
+
+  overflow-y:scroll;
+}
+
+.loading {
+  margin-top:20px;
+  text-align:center;
+}
+
+#home {
+  margin:0;
+  padding:0;
+
+  /* just the top */
+  margin-top:20px;
+}
+
+#login,
+#pin {
+  margin-right:auto;
+  margin-left:auto;
+
+  max-width:300px;
+  width:100%;
+
+  text-align:center;
+}
+
+#login button,
+#login input,
+#pin button,
+#pin input {
+  width:100%;
+}
+
+#pin input {
+  margin-top:40px;
+}
+
+.login-welcome {
+  margin-top:40px;
+}
+
+.login-subtext {
+  font-size:12px;
+  color:#95A5A6;
+
+  padding-bottom:20px;
+}
+
+.textarea {
+  outline:0;
+  margin-top:20px;
+}

@@ -10,7 +10,6 @@ var page = window.page,
 /* Open Developer tools for DEBUG */
 require('nw.gui').Window.get().showDevTools()
 
-
 function home() {
   $("#home").show();
 
@@ -19,7 +18,6 @@ function home() {
     tlib.startStream("#home");
   });
 
-  /* update times hook */
   setInterval(function() {
     $("span .timestamp").each(function(index) {
       $(this).html(tlib.moment($(this).attr('title')).fromNow());
@@ -55,6 +53,19 @@ $(".btn-close").click(function() {
 
 $(".btn-min").click(function() {
   require('nw.gui').Window.get().minimize()
+})
+
+$(".btn-tweet").click(function() {
+  // reset
+  global.tlib = tlib
+
+  // load the window
+  require('nw.gui').Window.open("./new-tweet.html", {
+    frame: false,
+    toolbar: false,
+    width: 400,
+    height: 150
+  })
 })
 
 $(".btn-max").click(function() {

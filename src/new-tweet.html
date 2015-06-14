@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Tweet</title>
+  </head>
+
+  <!-- Allow bootstrap override, place after -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/font-awesome.min.css" />
+  <link rel="stylesheet" href="css/twimber.css" />
+
+  <script src="js/jquery.js"></script>
+</html>
+
+<body>
+  <header>
+    <div class="btn-tweet" onclick="postTweet()">Send</div>
+
+    <div class="btns">
+      <div class="btn-close">&nbsp;</div>
+      <div class="btn-min">&nbsp;</div>
+    </div>
+  </header>
+
+  <textarea id="tweet-area" class="form-control textarea"></textarea>
+
+  <script src="js/buttons.js"></script>
+  <script type="text/javascript">
+  /* init the window */
+  function resize() {
+    $(".textarea").height($(document).height()-$("header").height())
+  }
+
+  $(window).on('resize', resize);
+
+  resize()
+
+  $.fn.enterKey = function (fnc, mod) {
+      return this.each(function () {
+          $(this).keypress(function (ev) {
+              var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+              if ((keycode == '13' || keycode == '10') && (!mod || ev[mod + 'Key'])) {
+                  fnc.call(this, ev);
+              }
+          })
+      })
+  }
+
+  $("#tweet-area").enterKey(postTweet);
+
+  function postTweet() {
+    $('#tweet-area').attr('disabled', '');
+    global.tlib.postStatus($('#tweet-area').val(), function() {
+      $('#tweet-area').removeAttr('disabled');
+      $('#tweet-area').val("");
+    })
+  }
+  </script>
+</body>
