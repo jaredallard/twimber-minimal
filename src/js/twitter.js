@@ -227,7 +227,7 @@ twitter.prototype.startStream = function(cb_div, options) {
 			if(options !== undefined) {
 				// todo: remember how to check if function
 				if(options.onMention !== undefined) {
-					if(tweet.text.match(new RegExp(ths.user.screen_name, 'g'), '')) {
+					if(tweet.text.match(ths.user.screen_name)) {
 						options.onMention(tweet);
 					}
 				}
