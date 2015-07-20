@@ -84,6 +84,7 @@
         "OAuth": true,
         "marked": true,
         "twemoji": true,
-        "DEA": true
+        "DEA": true,
+        "fs": true
     } // for NW.js and etc
 }

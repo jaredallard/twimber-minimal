@@ -280,7 +280,7 @@ twitter.prototype.formatBody = function(text) {
 	text = text.replace(exp, "$1[@$2](#)");
 
 	// initial markdown
-	var text = marked(text);
+	text = marked(text);
 
 	// emojii support
 	text = twemoji.parse(text, {

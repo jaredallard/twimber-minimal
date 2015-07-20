@@ -88,7 +88,7 @@ function home() {
   gui.App.registerGlobalHotKey(shortcut);
 
   setInterval(function() {
-    $("span .timestamp").each(function(index) {
+    $("span .timestamp").each(function() {
       $(this).html(tlib.moment($(this).attr('title')).fromNow());
     });
     //tlib.moment()
