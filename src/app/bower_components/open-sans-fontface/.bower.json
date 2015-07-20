@@ -27,6 +27,5 @@
   },
   "_source": "git://github.com/FontFaceKit/open-sans.git",
   "_target": "~1.0.4",
-  "_originalSource": "open-sans-fontface",
-  "_direct": true
+  "_originalSource": "open-sans-fontface"
 }

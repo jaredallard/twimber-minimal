@@ -1,0 +1,28 @@
+{
+  "name": "twimber-minimal",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jaredallard/twimber-minimal",
+  "authors": [
+    "Jared Allard <jaredallard@outlook.com>"
+  ],
+  "description": "A Minimal Desktop Twitter Client using NW.js",
+  "main": "index.html",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "marked": "~0.3.3",
+    "twemoji": "~1.4.1",
+    "font-awesome": "~4.3.0"
+  }
+}

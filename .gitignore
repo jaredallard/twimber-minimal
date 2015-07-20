@@ -1,3 +1,5 @@
 node_modules/
 nw/
 src/cfg/config.json
+src/bower_components
+src/app/bower_components

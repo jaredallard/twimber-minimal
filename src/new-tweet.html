@@ -5,11 +5,11 @@
   </head>
 
   <!-- Allow bootstrap override, place after -->
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/font-awesome.min.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="css/twimber.css" />
 
-  <script src="js/jquery.js"></script>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
 </html>
 
 <body>
@@ -26,54 +26,54 @@
 
   <script src="js/buttons.js"></script>
   <script type="text/javascript">
-  /* init the window */
-  function resize() {
-    $(".textarea").height($(document).height()-$("header").height())
-  }
-
-  $(window).on('resize', resize);
-
-  resize()
-
-  $.fn.enterKey = function (fnc, mod) {
-      return this.each(function () {
-          $(this).keypress(function (ev) {
-              var keycode = (ev.keyCode ? ev.keyCode : ev.which);
-              if (ev.ctrlKey && (keycode == '13' || keycode == '10')) {
-                  fnc.call(this, ev);
-              }
-          })
-      })
-  }
-
-  $("#tweet-area").enterKey(postTweet);
-
-  if(global.reply !== undefined) {
-    console.log(global.reply)
-    $(".textarea").html("@"+global.tweetname+" ");
-  }
-
-  function postTweet() {
-    $('#tweet-area').attr('disabled', '');
-
-
-    if(global.reply) {
-      global.tlib.reply(global.tweetid, $('#tweet-area').val(), function() {
-        $('#tweet-area').removeAttr('disabled');
-        $('#tweet-area').val("");
-      });
-    } else {
-      global.tlib.postStatus($('#tweet-area').val(), function() {
-        $('#tweet-area').removeAttr('disabled');
-        $('#tweet-area').val("");
-      });
+    /* init the window */
+    function resize() {
+      $(".textarea").height($(document).height()-$("header").height())
     }
 
-    global.reply = undefined;
-    global.tweetid = undefined;
-    global.tweetname = undefined;
-  }
+    $(window).on('resize', resize);
 
-  $(".textarea").focus()
+    resize()
+
+    $.fn.enterKey = function (fnc, mod) {
+        return this.each(function () {
+            $(this).keypress(function (ev) {
+                var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+                if (ev.ctrlKey && (keycode == '13' || keycode == '10')) {
+                    fnc.call(this, ev);
+                }
+            })
+        })
+    }
+
+    $("#tweet-area").enterKey(postTweet);
+
+    if(global.reply !== undefined) {
+      console.log(global.reply)
+      $(".textarea").html("@"+global.tweetname+" ");
+    }
+
+    function postTweet() {
+      $('#tweet-area').attr('disabled', '');
+
+
+      if(global.reply) {
+        global.tlib.reply(global.tweetid, $('#tweet-area').val(), function() {
+          $('#tweet-area').removeAttr('disabled');
+          $('#tweet-area').val("");
+        });
+      } else {
+        global.tlib.postStatus($('#tweet-area').val(), function() {
+          $('#tweet-area').removeAttr('disabled');
+          $('#tweet-area').val("");
+        });
+      }
+
+      global.reply = undefined;
+      global.tweetid = undefined;
+      global.tweetname = undefined;
+    }
+
+    $(".textarea").focus()
   </script>
 </body>

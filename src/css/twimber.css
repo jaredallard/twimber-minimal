@@ -103,6 +103,11 @@ header .btns .btn-max {
 
     border:2px solid #95A5A6;
 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
     /** Rounded Corners **/
     -webkit-border-radius: 90px;
     -moz-border-radius: 90px;
@@ -152,7 +157,7 @@ header .btns .btn-max {
   user-select:none;
 }
 .tweet-at {
-  font-size:15px;
+  font-size:13px;
   color:#cccccc !important;
   text-decoration:none;
   user-select:none;
