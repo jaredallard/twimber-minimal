@@ -1,5 +1,7 @@
 # Twimber-Minimal
 
+[![Code Climate](https://codeclimate.com/github/jaredallard/twimber-minimal/badges/gpa.svg)](https://codeclimate.com/github/jaredallard/twimber-minimal)
+
 Minimal Desktop oriented client! Perhaps like Tweetbot?
 
 ## How to use
