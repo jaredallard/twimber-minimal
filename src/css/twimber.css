@@ -103,21 +103,24 @@ header .btns .btn-max {
 
     border:2px solid #95A5A6;
 
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-
     /** Rounded Corners **/
     -webkit-border-radius: 90px;
     -moz-border-radius: 90px;
     border-radius: 90px;
 }
 .tweet {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+
  background-color:#FFFFFF;
 }
 .tweet-body {
   height:auto;
+
+  user-select: all;
+  -webkit-user-select: all;
 }
 .media-actions {
   margin-right:10px;
@@ -173,6 +176,19 @@ header .btns .btn-max {
   font-size:16px;
   color:#999999;
   user-select:none;
+}
+.tweet-image-wrapper {
+  padding-left:10px;
+  padding-right:10px;
+  margin-bottom:10px;
+
+  width:100%;
+}
+.tweet-image {
+  width:100%;
+  height:auto;
+
+  border:2px solid #95A5A6;
 }
 
 #page-wrapper {

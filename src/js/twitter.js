@@ -210,12 +210,8 @@ twitter.prototype.startStream = function(cb_div, options) {
 				delete global.recieved_tweet;
 			}
 
-			var tweet_text = tweet.text;
-
-			/** Prepend new Tweet **/
-			if(tweet_text.contains(ths.user.screen_name)===true) {
-				$('#mentions-tweets').prepend(ths.createFormattedTweet(tweet));
-			}
+			// TODO: remove on production
+			console.log(tweet);
 
 			/** Append Tweet to main stream, aka a home tab **/
 			$(cb_div).prepend(ths.createFormattedTweet(tweet));
@@ -231,7 +227,7 @@ twitter.prototype.startStream = function(cb_div, options) {
 			if(options !== undefined) {
 				// todo: remember how to check if function
 				if(options.onMention !== undefined) {
-					if(tweet.text.match(/@2root4you/g)) {
+					if(tweet.text.match(new RegExp(ths.user.screen_name, 'g'), '')) {
 						options.onMention(tweet);
 					}
 				}
@@ -363,6 +359,7 @@ twitter.prototype.createaFormattedTweet = function(tobj) {
 		favorited = "favorited"; // css class
 	}
 
+	// TODO: Make a handlebars.js template.
 	var t = "";
 	t += "<div class='media tweet' data-id='"+tobj.id_str+"' id='"+tobj.id_str+"-tweet'>";
 	t +="  <a class='pull-left' href='#'>";
@@ -372,6 +369,40 @@ twitter.prototype.createaFormattedTweet = function(tobj) {
 	t +="    <h4 class='media-heading'><span class='tweet-screen_name'>"+tobj.user.name+"</span> <a class='tweet-at' href='http://twitter.com/"+tobj.user.screen_name+"'>@"+tobj.user.screen_name+"</a></h4>";
 	t +=     this.formatBody(tobj.text);
 	t +="  </div>";
+
+	// MEDIA support
+	var tweet_has_media = 0,
+	    i = 0;
+	if (tobj.entities.media !== undefined) {
+		console.log("Tweet has image");
+		console.log("Tweet has: "+tobj.entities.media.length+" images.");
+
+		t += "<div class='tweet-image-wrapper'>";
+		for (i=0; i<tobj.entities.media.length; i++) {
+			t = t.replace(tobj.entities.media[i].url, ''); // remove the URL from the tweet, hacky
+
+			// generate an image object
+			var img = "<img class='tweet-image' src='"+tobj.entities.media[i].media_url_https+"' />";
+			t += img;
+			img = undefined; // clean up
+		}
+		t += "</div>";
+
+		tweet_has_media = 1;
+	}
+
+	// URL support
+	if(tobj.entities.urls.length > 0 && tweet_has_media === 0) {
+		console.log("Tweet has a URL.");
+		console.log(tobj.entities.urls);
+
+		for (i=0; i<tobj.entities.urls.length; i++) {
+			t = t.replace(tobj.entities.urls[i].url, tobj.entities.urls[i].display_url); // remove the URL from the tweet, hacky
+		}
+	}
+
+
+	// END OF TWEET (FOOTER)
 	t +="  <span class='media-actions'>";
 	t +="    <i class='glyphicon glyphicon-star "+favorited+"' onclick=\"tlib.favorite('"+tobj.id_str+"', $(this));\"></i>";
 	t +="    &nbsp;";
