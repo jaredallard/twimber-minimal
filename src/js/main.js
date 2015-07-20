@@ -140,7 +140,7 @@ function doPin(pin) {
 $(".btn-close").click(function() {
   console.log("closing window...");
   require('nw.gui').Window.get().close();
-})
+});
 
 $(".btn-min").click(function() {
   require('nw.gui').Window.get().minimize();

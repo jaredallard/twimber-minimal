@@ -12,7 +12,7 @@
  **/
 
 /** Add To String Object **/
-String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
+String.prototype.contains = function(it) { return this.indexOf(it) !== -1; };
 
 /**
  * Twitter Object construct, you should put anything that will be used across <all> functions here,
@@ -38,7 +38,7 @@ function twitter() {
 		consumerKey: this.consumer_key,
 		consumerSecret: this.consumer_secret
 	};
-	this.oauth = OAuth(options);
+	this.oauth = new OAuth(options);
 
 	/** Initialize apis **/
 	this.fs        = require('fs');
@@ -60,9 +60,9 @@ function twitter() {
  **/
 twitter.prototype.getTweets = function(user, cb_div, cb) {
 	console.log("[twitter.js] /getTweets/ => call: Gettings 100 tweets for'"+user+"'");
-	ths = this;
+	var ths = this;
 
-	this.T.get("statuses/user_timeline", { screen_name: user, count: 100}, function(err, data, response) {
+	this.T.get("statuses/user_timeline", { screen_name: user, count: 100}, function(err, data) {
 		var parsed_obj = ths.createFormattedTweet(data);
 		$(cb_div).html(parsed_obj);
 
@@ -81,7 +81,7 @@ twitter.prototype.getMentions = function(cb_div, cb) {
 	console.log("[twitter.js] /getMentions/ => call: Gettings 100 mentions. ["+cb_div+"]");
 	ths = this;
 
-	this.T.get("statuses/mentions_timeline", { count: 100}, function(err, data, response) {
+	this.T.get("statuses/mentions_timeline", { count: 100}, function(err, data) {
 		var parsed_obj = ths.createFormattedTweet(data);
 		$(cb_div).html(parsed_obj);
 
@@ -99,7 +99,7 @@ twitter.prototype.getMentions = function(cb_div, cb) {
 twitter.prototype.getDMs = function(cb_div, cb) {
 	ths = this;
 
-	this.T.get("direct_messages", { count: 100 }, function(err, data, response) {
+	this.T.get("direct_messages", { count: 100 }, function(err, data) {
 		$(cb_div).html(ths.createFormattedDm(data));
 
 		if(cb!==undefined) {
@@ -115,7 +115,7 @@ twitter.prototype.lookUpUser = function(user, cb) {
 
 	console.log("[twitter.js] /lookUpUser/ => call: Getting user obj for '"+user+"'");
 
-	this.T.get("users/show", { screen_name: user }, function(err, data, response) {
+	this.T.get("users/show", { screen_name: user }, function(err, data) {
 		if(err) {
 			index.throwError("Couldn't look up user:"+user);
 			return false;
@@ -150,11 +150,11 @@ twitter.prototype.killStream = function() {
 twitter.prototype.showLag = function(lag) {
 	$("#lag").attr("title", "Streaming API Latency: "+lag+"ms");
 	$("#lag-num").attr("title", "Streaming API Latency: "+lag+"ms");
-	if(lag < 50 || lag == 50) {
+	if(lag < 50 || lag === 50) {
 		$("#lag").css("color", "green");
-	} else if (lag == 51 || 51 < lag && lag < 150 || lag == 150) {
+	} else if (lag === 51 || 51 < lag && lag < 150 || lag === 150) {
 		$("#lag").css("color", "yellow");
-	} else if (lag > 151 || lag == 151) {
+	} else if (lag > 151 || lag === 151) {
 		$("#lag").css("color", "red");
 	} else {
 		$("#lag").css("color", "#000");
@@ -242,7 +242,8 @@ twitter.prototype.startStream = function(cb_div, options) {
 			global.tweet_posted  = undefined;
 			finish_parse_tweet   = undefined;
 		});
-		global.user_stream.on('disconnect', function(dc_msg) {
+
+		global.user_stream.on('disconnect', function() {
 			index.throwError("[twitter.js] /stream/ => event: Disconnect");
 			ths.killStream();
 		});
@@ -250,7 +251,7 @@ twitter.prototype.startStream = function(cb_div, options) {
 			console.log("[twitter.js] /stream/ => event: Favorite");
 			$(cb_div).prepend(ths.createFavoriteTweet(response));
 		});
-		global.user_stream.on('close', function(dc_msg) {
+		global.user_stream.on('close', function() {
 			index.throwError("[twitter.js] /stream/ => event: Close");
 			ths.killStream();
 		});
@@ -279,7 +280,7 @@ twitter.prototype.formatBody = function(text) {
 	text = text.replace(exp, "$1[@$2](#)");
 
 	// initial markdown
-	text = marked(text);
+	var text = marked(text);
 
 	// emojii support
 	text = twemoji.parse(text, {
@@ -391,8 +392,9 @@ twitter.prototype.createaFormattedTweet = function(tobj) {
  * @return str
  **/
 twitter.prototype.createFormattedDm = function(tweet_objs) {
-	var t = "";
-	that = this;
+	var t    = "",
+	    that = this;
+
 	$.each(tweet_objs, function(index, value) {
 		t += "<div class='media tweet' id='"+value.id+"-dm'>";
 		t +="  <a class='pull-left' href='#'>";
@@ -421,9 +423,9 @@ twitter.prototype.createFormattedDm = function(tweet_objs) {
  * @return none
  **/
 twitter.prototype.getTimeline = function(cb_div, cb) {
-	ths = this;
+	var ths = this;
 
-	this.T.get("statuses/home_timeline", { count: 100 }, function(err, data, response) {
+	this.T.get("statuses/home_timeline", { count: 100 }, function(err, data) {
 		var parsed_obj = ths.createFormattedTweet(data);
 		$(cb_div).html(parsed_obj);
 
@@ -600,7 +602,7 @@ twitter.prototype.requestPin = function (user) {
 				global.requestParams = data.text;
 			},
 
-			function(data) {
+			function() {
 				index.throwError("Couldn't get a OAuth token.");
 			}
 		);
@@ -614,7 +616,7 @@ twitter.prototype.requestPin = function (user) {
  **/
 twitter.prototype.postStatus = function(status, cb) {
 	console.log("[twitter.js] /postStatus/ => post: Posting '"+status+"'");
-	this.T.post('statuses/update', { status: status }, function(err, data, response) {
+	this.T.post('statuses/update', { status: status }, function(err) {
 	  if(err) {
 	  	index.throwError("Couldn't post status");
 	  }
@@ -657,7 +659,7 @@ twitter.prototype.favorite = function(id, obj) {
  **/
 twitter.prototype.retweet = function(id, obj) {
 	console.log("[twitter] retweet: Attempting to retweet tweet with id of '"+id+"'");
-	this.T.post('statuses/retweet/:id', { id: id }, function (err, data, response) {
+	this.T.post('statuses/retweet/:id', { id: id }, function (err, data) {
 		if(err) {
 			index.throwError(err);
 		} else {
@@ -718,7 +720,7 @@ twitter.prototype.reply = function(id, status, cb) {
 	}
 
 	console.log("[twitter.js] /postStatus/ => post: Posting '"+status+"'");
-	this.T.post('statuses/update', { status: status, in_reply_to_status_id: id }, function(err, data, response) {
+	this.T.post('statuses/update', { status: status, in_reply_to_status_id: id }, function(err) {
 	  if(err) {
 	  	index.throwError("Couldn't post status");
 	  }
@@ -734,4 +736,4 @@ twitter.prototype.reply = function(id, status, cb) {
 };
 
 /** Is now changeable **/
-tlib = new twitter();
+var tlib = new twitter();
