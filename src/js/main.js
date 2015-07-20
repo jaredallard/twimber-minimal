@@ -112,12 +112,16 @@ function composeTweet(id, name) {
   }
 
   // load the window
-  require('nw.gui').Window.open("./new-tweet.html", {
+  var win = require('nw.gui').Window.open("./new-tweet.html", {
     frame: false,
     toolbar: false,
     width: 400,
     height: 150,
-    position: "mouse"
+    "always-on-top": true,
+    position: "center"
+  });
+  win.on('loaded', function() {
+    win.focus();
   });
 }
 

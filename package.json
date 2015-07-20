@@ -1,13 +1,13 @@
 {
   "main": "src/index.html",
   "name": "twimber-minimal",
-  "description": "Modern Twitter Client.",
-  "version": "2.0.3",
-  "license": "GNUGPLv3",
+  "description": "A Developer Oriented Twitter Client",
+  "version": "0.1.0",
+  "license": "MIT",
   "author": {
-    "name": "RainbowDashDC",
-    "email": "allardj64@gmail.com",
-    "url": "http://rainbowdashdc.github.io/"
+    "name": "Jared Allard",
+    "email": "jaredallard@outlook.com",
+    "url": "https://jaredallard.me"
   },
   "dependencies": {
     "form-data": "^0.2.0",
