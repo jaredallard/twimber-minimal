@@ -50,9 +50,12 @@
 
     $("#tweet-area").enterKey(postTweet);
 
+    var rid; // scope
     if(global.reply !== undefined) {
       console.log(global.reply)
       $(".textarea").html("@"+global.tweetname+" ");
+
+      rid = global.tweetid;
     }
 
     function postTweet() {
@@ -60,7 +63,7 @@
 
 
       if(global.reply) {
-        global.tlib.reply(global.tweetid, $('#tweet-area').val(), function() {
+        global.tlib.reply(rid, $('#tweet-area').val(), function() {
           $('#tweet-area').removeAttr('disabled');
           $('#tweet-area').val("");
         });
@@ -72,8 +75,7 @@
       }
 
       global.reply = undefined;
-      global.tweetid = undefined;
-      global.tweetname = undefined;
+      rid = undefined;
     }
 
     $(".textarea").focus()

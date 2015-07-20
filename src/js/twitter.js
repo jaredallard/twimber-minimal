@@ -360,7 +360,7 @@ twitter.prototype.createaFormattedTweet = function(tobj) {
 	t +="    <img class='media-object tweet-pimg' src='"+tobj.user.profile_image_url.replace("_normal", "")+"'>";
 	t +="  </a>";
 	t +="  <div class='media-body'>";
-	t +="    <h4 class='media-heading'><span class='tweet-screen_name'>"+tobj.user.name+"</span> <a class='tweet-at' href='http://twitter.com/"+tobj.user.screen_name+"'>@"+tobj.user.screen_name+"</a></h4>";
+	t +="    <h4 class='media-heading'><span class='tweet-screen_name'>"+(twemoji.parse(tobj.user.name, {size: 16})+"</span> <a class='tweet-at' href='http://twitter.com/"+tobj.user.screen_name+"' target='__blank'>@"+tobj.user.screen_name+"</a></h4>");
 	t +=     this.formatBody(tobj.text);
 	t +="  </div>";
 
