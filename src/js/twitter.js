@@ -185,7 +185,6 @@ twitter.prototype.startStream = function(cb_div, options) {
 			}
 		} else {
 			this.killStream();
-
 			return false;
 		}
 
@@ -193,6 +192,7 @@ twitter.prototype.startStream = function(cb_div, options) {
 			if(global.lag===undefined) {
 				global.lag="N/A";
 			}
+
 			console.log("[twitter.js]: /stream/ => event: Tweet");
 			var parse_tweet = new Date().getTime();
 
@@ -201,13 +201,10 @@ twitter.prototype.startStream = function(cb_div, options) {
 				global.recieved_tweet = new Date().getTime();
 				global.measure_tweet = false;
 				global.lag = global.recieved_tweet-global.tweet_posted;
+
 				console.log("[twitter.js] /stream/ => time: Streaming API Lag is at "+global.lag+"ms");
 
 				ths.showLag(global.lag);
-
-				global.measure_tweet=false; // secondary precaution
-				delete global.measure_tweet;
-				delete global.recieved_tweet;
 			}
 
 			// TODO: remove on production
@@ -232,21 +229,21 @@ twitter.prototype.startStream = function(cb_div, options) {
 					}
 				}
 			}
-
-			/** Clean up **/
-			global.measure_tweet = false;
-			global.tweet_posted  = undefined;
-			finish_parse_tweet   = undefined;
 		});
 
+		/** stream disconnect event **/
 		global.user_stream.on('disconnect', function() {
 			index.throwError("[twitter.js] /stream/ => event: Disconnect");
 			ths.killStream();
 		});
+
+		/** favourite event **/
 		global.user_stream.on('favorite', function(response) {
 			console.log("[twitter.js] /stream/ => event: Favorite");
 			$(cb_div).prepend(ths.createFavoriteTweet(response));
 		});
+
+		/** close event **/
 		global.user_stream.on('close', function() {
 			index.throwError("[twitter.js] /stream/ => event: Close");
 			ths.killStream();
@@ -263,11 +260,8 @@ twitter.prototype.startStream = function(cb_div, options) {
  * @return str
  **/
 twitter.prototype.formatBody = function(text) {
-	if(typeof(text)==='undefined') {
-		// Fallback to original text.
-		return "<span style='color:red;'>[Twimber Error] empty text</span>";
-	}
 	text = "<div class='tweet-body'>"+text;
+
 	var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;.]*[-A-Z0-9+&@#\/%=~_|])/i;
 	text = text.replace(exp, "[$1](#)");
 	exp = /(^|\s)#(\w+)/g;
@@ -296,8 +290,8 @@ twitter.prototype.formatBody = function(text) {
  * @return str
  **/
 twitter.prototype.createFormattedTweet = function(tweet_objs) {
-	var t = "";
-	ths = this;
+	var t   = "",
+	    ths = this;
 
 	if(tweet_objs===undefined) {
 		return false;
