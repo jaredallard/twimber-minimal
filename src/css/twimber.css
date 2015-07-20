@@ -3,6 +3,8 @@ body {
   height:100%;
   width:100%;
 
+  user-select:none;
+  -webkit-user-select:none;
 
   overflow:hidden;
 
@@ -50,7 +52,6 @@ header .btns div {
   float:right;
 
   margin-top:5px;
-
   margin-right:5px;
 
   border-radius: 50%;
@@ -75,16 +76,22 @@ header .btn-tweet {
 header .btns .btn-close {
   -webkit-app-region: no-drag;
   background-color: #FE6053;
+
+  cursor: pointer;
 }
 
 header .btns .btn-min {
   -webkit-app-region: no-drag;
   background-color: #FFBE05;
+
+  cursor: pointer;
 }
 
 header .btns .btn-max {
   -webkit-app-region: no-drag;
   background-color: #0DCE33;
+
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar {
@@ -120,18 +127,18 @@ header .btns .btn-max {
 
  background-color:#FFFFFF;
 }
-.tweet-body {
-  height:auto;
 
-  user-select: all;
-  -webkit-user-select: all;
-}
 .media-actions {
   margin-right:10px;
   width:auto;
   color:#474747;
   float:right;
 }
+
+.media-actions i {
+  cursor: pointer;
+}
+
 .loading-gif-wrapper {
   margin-top:20px;
   text-align:center;
@@ -147,8 +154,12 @@ header .btns .btn-max {
   white-space: pre-wrap;
   word-wrap: break-word;
 
+  height:auto;
+  min-height:75px;
+  user-select: all;
+  -webkit-user-select: all;
+
   margin-right:20px;
-  min-height:50px;
 }
 .tweet-at-link,
 .tweet-link,
@@ -236,7 +247,6 @@ header .btns .btn-max {
 #pin button,
 #pin input {
   width:100%;
-  cursor: pointer;
 }
 
 #pin input {
@@ -270,8 +280,4 @@ header .btns .btn-max {
 .title {
   text-align:center;
   width:auto;
-}
-
-.media-actions i {
-  cursor: pointer;
 }
