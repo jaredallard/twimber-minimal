@@ -6,9 +6,10 @@
 
 var page = window.page,
     tlib = window.tlib;
+    fs   = require('fs'); // for node context
 
 /* Open Developer tools for DEBUG */
-require('nw.gui').Window.get().showDevTools()
+require('nw.gui').Window.get().showDevTools();
 
 function home() {
   $("#home").show();
@@ -23,10 +24,10 @@ function home() {
           message: tlib.formatBody(tweet.text),
           iconUrl: tweet.user.profile_image_url.replace("_normal", ""),
           buttonPrimary: "Dismiss"
-        }
+        };
 
         function callback() {
-          console.log("mention dialog callback called.")
+          console.log("mention dialog callback called.");
         }
 
         DEA.notifications.create(options, callback);
@@ -48,10 +49,10 @@ function home() {
           message: tlib.formatBody(tweet.text),
           iconUrl: tweet.user.profile_image_url.replace("_normal", ""),
           buttonPrimary: "Dismiss"
-        }
+        };
 
         function callback() {
-          console.log("mention dialog callback called.")
+          console.log("mention dialog callback called.");
         }
 
         DEA.notifications.create(options, callback);
@@ -71,7 +72,7 @@ function home() {
   var option = {
     key : "Ctrl+T",
     active : function() {
-      console.log("Tweet hotkey active.")
+      console.log("Tweet hotkey active.");
       composeTweet();
     },
     failed : function(msg) {
@@ -89,9 +90,9 @@ function home() {
   setInterval(function() {
     $("span .timestamp").each(function(index) {
       $(this).html(tlib.moment($(this).attr('title')).fromNow());
-    })
+    });
     //tlib.moment()
-  }, 1000)
+  }, 1000);
 }
 
 function login() {
@@ -100,11 +101,11 @@ function login() {
 
 function composeTweet(id, name) {
   // reset
-  global.tlib = tlib
+  global.tlib = tlib;
 
   if(id !== undefined && id !== "") {
-    console.log("main: doing a reply.")
-    console.log(id)
+    console.log("main: doing a reply.");
+    console.log(id);
     global.reply = true;
     global.tweetid = id;
     global.tweetname = name;
@@ -117,7 +118,7 @@ function composeTweet(id, name) {
     width: 400,
     height: 150,
     position: "mouse"
-  })
+  });
 }
 
 function doLogin(user) {
@@ -127,7 +128,7 @@ function doLogin(user) {
 
   tlib.requestPin(user);
 
-  page.set("pin")
+  page.set("pin");
 }
 
 function doPin(pin) {
@@ -137,34 +138,34 @@ function doPin(pin) {
 
 /* init the window buttons */
 $(".btn-close").click(function() {
-  console.log("closing window...")
-  require('nw.gui').Window.get().close()
+  console.log("closing window...");
+  require('nw.gui').Window.get().close();
 })
 
 $(".btn-min").click(function() {
-  require('nw.gui').Window.get().minimize()
-})
+  require('nw.gui').Window.get().minimize();
+});
 
 $(".btn-tweet").click(function() {
-  composeTweet()
+  composeTweet();
 });
 
 $(".btn-max").click(function() {
   if (window.winstate === undefined || window.winstate === 0 ) {
     window.winstate = 1;
-    require('nw.gui').Window.get().maximize()
+    require('nw.gui').Window.get().maximize();
   } else {
     window.winstate = 0;
-    require('nw.gui').Window.get().unmaximize()
+    require('nw.gui').Window.get().unmaximize();
   }
-})
+});
 
 function initTwimber() {
   if(file.name!=="") {
-    console.log("Found config for user: "+file.name)
+    console.log("Found config for user: "+file.name);
     tlib.initializeTwit(file.credentials[file.name].access_token, file.credentials[file.name].access_token_secret);
   } else {
-    console.log("Config is invaild!")
+    console.log("Config is invaild!");
   }
 
   /* Initialize Twitter first */
@@ -176,13 +177,13 @@ function initTwimber() {
 
 /* init the window */
 function resize() {
-  $("#page-wrapper").height($(document).height()-$("header").height())
+  $("#page-wrapper").height($(document).height()-$("header").height());
 }
 
 $(window).on('resize', resize);
 
 /* resize event */
-resize()
+resize();
 
 /* Page registers */
 page.register({
@@ -205,7 +206,7 @@ page.register({
   },
   nav: false,
   back: false
-})
+});
 
 page.register({
   name: "pin",
@@ -220,14 +221,13 @@ page.register({
   },
   nav: false,
   back: false
-})
+});
 
 /* Get config object */
 try {
   var file = tlib.getConfigObj();
   initTwimber();
 } catch(err) {
-  var fs = require('fs')
   if (fs.existsSync("./src/cfg/config.json") === false) {
     var _c = fs.readFileSync("./src/cfg/default.json", {
       encoding: 'utf8'
