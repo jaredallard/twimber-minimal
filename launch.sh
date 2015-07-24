@@ -1,2 +1,11 @@
 #!/usr/bin/env bash
-../nwjs-v**/nw ./
+
+if [ -f ../nwjs-v**/nw ]; then
+  . ../nwjs-v**/nw .
+else
+  if which nw > /dev/null; then
+    nw .
+  else
+    echo "nw.js was not found"
+  fi
+fi
